@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      # Card 1 — Profile overview: rank header, repo stats, lines changed, achievements
+      # Card 1 — Identity header + language breakdown
       - name: Generate metrics-overview.svg
         uses: lowlighter/metrics@latest
         with:
@@ -27,33 +27,16 @@ jobs:
           user: crypticatul
           filename: metrics-overview.svg
           committer_branch: main
-          base: header, repositories
+          base: header
           repositories_affiliations: owner, collaborator
           config_timezone: Asia/Kolkata
           config_octicon: yes
-          plugin_lines: yes
-          plugin_achievements: yes
-          plugin_achievements_display: compact
-          plugin_achievements_threshold: C
-
-      # Card 2 — Language breakdown by bytes and percentage
-      - name: Generate metrics-languages.svg
-        uses: lowlighter/metrics@latest
-        with:
-          token: ${{ secrets.METRICS_TOKEN }}
-          committer_token: ${{ github.token }}
-          user: crypticatul
-          filename: metrics-languages.svg
-          committer_branch: main
-          base: ""
-          repositories_affiliations: owner, collaborator
-          config_timezone: Asia/Kolkata
           plugin_languages: yes
-          plugin_languages_limit: 10
+          plugin_languages_limit: 8
           plugin_languages_details: bytes-size, percentage
           plugin_languages_sections: most-used
 
-      # Card 3 — Full dashboard: 3D calendar, push activity, commit habits, notable work
+      # Card 2 — Contribution volume + full-year isometric commit calendar
       - name: Generate github-metrics.svg
         uses: lowlighter/metrics@latest
         with:
@@ -62,31 +45,9 @@ jobs:
           user: crypticatul
           filename: github-metrics.svg
           committer_branch: main
-          base: activity, community, metadata
+          base: activity
           repositories_affiliations: owner, collaborator
           config_timezone: Asia/Kolkata
           config_octicon: yes
-
-          # Isometric commit calendar (full year)
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
-
-          # Recent activity (pushes, PRs, issues, releases)
-          plugin_activity: yes
-          plugin_activity_limit: 5
-          plugin_activity_days: 14
-          plugin_activity_filter: push, pr, issue, release
-
-          # Commit habits: days & hours heatmap
-          plugin_habits: yes
-          plugin_habits_from: 200
-          plugin_habits_days: 30
-          plugin_habits_charts: yes
-          plugin_habits_facts: yes
-
-          # Contribution calendar
-          plugin_calendar: yes
-          plugin_calendar_limit: 1
-
-          # Notable contributions
-          plugin_notable: yes
